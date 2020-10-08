@@ -1,7 +1,4 @@
 /* Remove margins and padding from the list */
-.tasks-list {
-}
-
 ul {
   margin: 0;
   padding: 0;
@@ -9,7 +6,6 @@ ul {
 
 /* Style the list items */
 ul li {
-  cursor: pointer;
   position: relative;
   padding: 12px 8px 12px 40px;
   margin: 1px;
@@ -72,6 +68,12 @@ ul li.checked::before {
   color: white;
 }
 
+.check-btn:hover {
+   background-color: green;
+   color: white;
+ }
 
-
-
+.uncheck-btn:hover {
+  background-color: lightcoral;
+  color: white;
+}

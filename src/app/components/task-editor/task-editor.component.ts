@@ -27,6 +27,8 @@ export class TaskEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.editMode === true) {
+
+      // for changes in edit task id
       this.textTaskControl = new FormControl(this.taskService.task.text);
       this.router.events.pipe(
         filter(event => event instanceof NavigationEnd),

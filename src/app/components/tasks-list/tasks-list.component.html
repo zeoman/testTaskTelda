@@ -1,20 +1,32 @@
-<ul *ngIf="this.taskService.tasks.length >= 1" class="tasks-list">
+<ul *ngIf="this.taskService.tasks.length >= 1">
   <li *ngFor="let task of this.taskService.tasks"
       class="task-item"
-      [ngClass]="{checked:task.completed}"
-      (click)="this.taskService.toggleTaskCompleted(task.id)">
-    {{task?.text}}
-    <div class="btn-group-wrapper">
+      [ngClass]="{checked:task.completed}">
+      {{task?.text}}
+    <div>
+      <button *ngIf="!task.completed"
+              (click)="this.taskService.toggleTaskCompleted(task.id)"
+              class="task-list-btn check-btn">
+        Выполнено
+      </button>
+      <button *ngIf="task.completed"
+              (click)="this.taskService.toggleTaskCompleted(task.id)"
+              class="task-list-btn uncheck-btn">
+        Отмена
+      </button>
+
       <button [routerLink]="['/tasks/' + task.id]"
               routerLinkActive="router-active-link"
               [routerLinkActiveOptions]="{ exact: true}"
               class="task-list-btn edit-btn">
         Редактировать
       </button>
+
       <button (click)="this.taskService.deleteTask(task.id)"
               class="task-list-btn delete-btn">
         Удалить
       </button>
+
     </div>
   </li>
 </ul>
