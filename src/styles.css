@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Include the padding and border in an element's total width and height */
+* {
+  box-sizing: border-box;
+}
+
+.split-screen {
+  display: grid;
+  grid-template-columns: 1fr 1fr
+}

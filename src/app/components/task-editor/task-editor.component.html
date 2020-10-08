@@ -1,0 +1,22 @@
+<div *ngIf="editMode === false" class="task-editor">
+  <a class="close" [routerLink]="['/tasks']"></a>
+  <h2>Новая задача</h2>
+  <input [formControl]="textTaskControl"
+         (keydown.enter)="addTask(textTaskControl.value)"
+         type="text"
+         placeholder="Текст задачи...">
+  <span (click)="addTask(textTaskControl.value)" class="task-editor-btn">
+    Создать
+  </span>
+</div>
+<div *ngIf="editMode === true" class="task-editor">
+  <a class="close" [routerLink]="['/tasks']"></a>
+  <h2>Редактирование задачи</h2>
+  <input [formControl]="textTaskControl"
+         (keydown.enter)="editTask(task.id, textTaskControl.value)"
+         type="text"
+         placeholder="Текст задачи...">
+  <span (click)="editTask(task.id, textTaskControl.value)" class="task-editor-btn">
+    Сохранить
+  </span>
+</div>
