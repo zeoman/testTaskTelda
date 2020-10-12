@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TaskService} from '../../task.service';
+import {TaskService} from '../../shared/task.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -13,4 +13,10 @@ export class TasksListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  deleteTask(id: string): void {
+    this.taskService.deleteTask(id);
+  }
+  toggleTaskCompleted(id: string): void {
+    this.taskService.toggleTaskCompleted(id);
+  }
 }

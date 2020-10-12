@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {TaskService} from '../../task.service';
+import {TaskService} from '../../shared/task.service';
 
 @Component({
   selector: 'app-tasks-edit',

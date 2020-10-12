@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {TaskService, Task} from '../../task.service';
+import {TaskService, Task} from '../../shared/task.service';
 import {FormControl} from '@angular/forms';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {filter, tap} from 'rxjs/operators';
-import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-task-editor',
@@ -15,29 +15,30 @@ export class TaskEditorComponent implements OnInit, OnDestroy {
   @Input() public editMode: boolean;
   @Input() public task: Task;
 
-  sub: Subscription;
-
   textTaskControl: FormControl;
+  unsubNotifier = new Subject();
 
   constructor(
     public taskService: TaskService,
     private route: ActivatedRoute,
-    private router: Router,
   ) { }
 
   ngOnInit(): void {
     if (this.editMode === true) {
-
+      this.taskService.task$.subscribe( task => {
+        this.task = task;
+      });
       // for changes in edit task id
-      this.textTaskControl = new FormControl(this.taskService.task.text);
-      this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
-        tap(() => {
-          this.taskService.setCurrentTaskById(this.route.snapshot.params.id);
-          const inputValue = this.taskService.task.text;
+      this.textTaskControl = new FormControl(this.task.text);
+      this.route.paramMap.pipe(
+        switchMap(params => params.getAll('id')),
+        takeUntil(this.unsubNotifier)
+      ).subscribe(id => {
+          this.taskService.setCurrentTaskById(id);
+          // console.log(id);
+          const inputValue = this.task.text;
           this.textTaskControl = new FormControl(inputValue);
-        })
-      ).subscribe();
+      });
     } else {
       this.textTaskControl = new FormControl('');
     }
@@ -50,8 +51,7 @@ export class TaskEditorComponent implements OnInit, OnDestroy {
     this.taskService.editTask(taskId, taskText);
   }
   ngOnDestroy(): void {
-    if (!!this.sub) {
-      this.sub.unsubscribe();
-    }
+    this.unsubNotifier.next();
+    this.unsubNotifier.complete();
   }
 }

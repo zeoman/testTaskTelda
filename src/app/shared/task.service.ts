@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 export interface Task {
   id: string;
@@ -11,22 +12,23 @@ export interface Task {
 })
 export class TaskService {
 
-  task: Task;
-  tasks: Task[];
+  private taskSubject = new BehaviorSubject<Task>({id: '', text: '', completed: false});
+  task$: Observable<Task> = this.taskSubject.asObservable();
+
+  tasks: Task[] = [
+    {
+      id: '123',
+      text: 'Купить продукты',
+      completed: false
+    },
+    {
+      id: '321',
+      text: 'Выполнить тестовое задание',
+      completed: false
+    }
+  ];
 
   constructor() {
-    this.tasks = [
-      {
-        id: '123',
-        text: 'Купить продукты',
-        completed: false
-      },
-      {
-        id: '321',
-        text: 'Выполнить тестовое задание',
-        completed: false
-      }
-    ];
   }
 
   addTask(taskText: string) {
@@ -57,11 +59,12 @@ export class TaskService {
     const taskIndex = this.tasks.findIndex(task => task.id === taskId);
 
     if (taskIndex >= 0) {
-      this.task = this.tasks[taskIndex];
+      this.taskSubject.next(this.tasks[taskIndex]);
     }
   }
+
   toggleTaskCompleted(taskId: string): void {
-    console.log('clicked');
+    // console.log('clicked');
     const taskIndex = this.tasks.findIndex(task => task.id === taskId);
 
     if (taskIndex >= 0) {
