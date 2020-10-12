@@ -13,8 +13,8 @@ import {Subject} from 'rxjs';
 export class TaskEditorComponent implements OnInit, OnDestroy {
 
   @Input() public editMode: boolean;
-  @Input() public task: Task;
 
+  task: Task;
   textTaskControl: FormControl;
   unsubNotifier = new Subject();
 
@@ -24,8 +24,11 @@ export class TaskEditorComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.task = null;
     if (this.editMode === true) {
-      this.taskService.task$.subscribe( task => {
+      this.taskService.task$
+        .pipe(takeUntil(this.unsubNotifier))
+        .subscribe( task => {
         this.task = task;
       });
       // for changes in edit task id
