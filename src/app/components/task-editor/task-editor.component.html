@@ -1,5 +1,5 @@
 <div *ngIf="editMode === false" class="task-editor">
-  <a class="close" [routerLink]="['/tasks']"></a>
+  <a class="close" routerLink="/tasks"></a>
   <h2>Новая задача</h2>
   <input [formControl]="textTaskControl"
          (keydown.enter)="addTask(textTaskControl.value)"
@@ -10,7 +10,7 @@
   </span>
 </div>
 <div *ngIf="editMode === true" class="task-editor">
-  <a class="close" [routerLink]="['/tasks']"></a>
+  <a class="close" routerLink="tasks"></a>
   <h2>Редактирование задачи</h2>
   <input [formControl]="textTaskControl"
          (keydown.enter)="editTask(task.id, textTaskControl.value)"

@@ -15,7 +15,7 @@
         Отмена
       </button>
 
-      <button [routerLink]="['/tasks/' + task.id]"
+      <button [routerLink]="['/tasks/', task.id]"
               routerLinkActive="router-active-link"
               [routerLinkActiveOptions]="{ exact: true}"
               class="task-list-btn edit-btn">
@@ -31,7 +31,7 @@
   </li>
 </ul>
 <p *ngIf="this.taskService.tasks.length === 0">Нет задач</p>
-<button [routerLink]="['/tasks/new']"
+<button routerLink="/tasks/new"
         class="task-list-btn"
         style="margin-top: 5px"
 >
